@@ -20,7 +20,6 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- Navbar -->
     <nav class="bg-white border-b shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -35,25 +34,24 @@
                     <i class="fas fa-folder-open"></i> Ver Portafolio
                 </a>
                 <button onclick="toggleLoginModal()" id="btn-login" 
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-3xl font-semibold transition-all">
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-3xl font-semibold">
                     Iniciar sesión
                 </button>
                 <button onclick="showAddModal()" id="btn-add" 
-                        class="hidden bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-3xl font-semibold transition-all">
+                        class="hidden bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-3xl font-semibold">
                     + Agregar Semana
                 </button>
                 <button onclick="logout()" id="btn-logout" 
-                        class="hidden text-red-500 hover:text-red-600 text-xl transition-all">
+                        class="hidden text-red-500 hover:text-red-600 text-xl">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero -->
     <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-20 text-center">
         <h2 class="text-5xl font-bold mb-3">Mi Portafolio de Trabajos Semanales</h2>
-        <p class="text-xl text-blue-100">Solo visible en la misma computadora donde subes los archivos</p>
+        <p class="text-xl text-blue-100">Archivos públicos en GitHub Pages</p>
     </header>
 
     <section id="portafolio" class="max-w-7xl mx-auto px-6 py-12">
@@ -64,18 +62,12 @@
     <!-- Login Modal -->
     <div id="login-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
         <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4">
-            <h3 class="text-2xl font-bold mb-6 text-center">Iniciar sesión</h3>
-            <input id="email" type="email" placeholder="Correo electrónico" 
-                   class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-4">
-            <input id="password" type="password" placeholder="Contraseña" 
-                   class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-6">
-            <button onclick="handleLogin()" 
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-3xl font-semibold text-lg">
-                Entrar
-            </button>
+            <h3 class="text-2xl font-bold mb-6">Iniciar sesión (Estudiante)</h3>
+            <input id="email" type="email" placeholder="Correo electrónico" class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-4">
+            <input id="password" type="password" placeholder="Contraseña" class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-6">
+            <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-3xl font-semibold">Entrar</button>
             <p class="text-center text-xs text-gray-500 mt-6">
-                Usuario: r01124b@estudiante.com<br>
-                Contraseña: Grc74648482
+                r01124b@estudiante.com / Grc74648482
             </p>
         </div>
     </div>
@@ -83,25 +75,27 @@
     <!-- Add Modal -->
     <div id="add-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
         <div class="bg-white rounded-3xl p-8 max-w-lg w-full mx-4">
-            <div class="flex justify-between mb-6">
-                <h3 class="text-2xl font-bold">Agregar trabajo de la semana</h3>
-                <button onclick="hideAddModal()" class="text-3xl text-gray-400 hover:text-gray-600">×</button>
-            </div>
-            <form onsubmit="handleUpload(event)">
+            <h3 class="text-2xl font-bold mb-6">Agregar trabajo de la semana</h3>
+            <form onsubmit="handleAddWork(event)">
                 <input id="semana" type="number" min="1" placeholder="Número de semana" class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-4" required>
                 <input id="titulo" type="text" placeholder="Título del trabajo" class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-4" required>
                 <textarea id="descripcion" rows="3" placeholder="Descripción breve..." class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-6" required></textarea>
-                <input id="file" type="file" class="w-full mb-6" required>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Archivo (PDF, Word, imágenes, etc.)</label>
+                    <input id="file" type="file" class="w-full" required>
+                </div>
+
                 <div class="flex gap-3">
-                    <button type="button" onclick="hideAddModal()" class="flex-1 py-4 border border-gray-300 rounded-3xl text-gray-700">Cancelar</button>
-                    <button type="submit" id="uploadBtn" class="flex-1 py-4 bg-emerald-600 text-white rounded-3xl font-semibold">Subir Archivo</button>
+                    <button type="button" onclick="hideAddModal()" class="flex-1 py-4 border border-gray-300 rounded-3xl">Cancelar</button>
+                    <button type="submit" id="uploadBtn" class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-3xl font-semibold">Guardar Trabajo</button>
                 </div>
             </form>
         </div>
     </div>
 
     <footer class="bg-gray-900 text-white py-10 text-center text-sm">
-        Portafolio solo con GitHub Pages • Archivos guardados localmente
+        Portafolio en GitHub Pages
     </footer>
 
     <script>
@@ -118,48 +112,43 @@
                 document.getElementById('btn-login').classList.add('hidden');
                 document.getElementById('btn-add').classList.remove('hidden');
                 document.getElementById('btn-logout').classList.remove('hidden');
-                alert("✅ Sesión iniciada correctamente");
+                alert("✅ Sesión iniciada");
                 renderWorks();
             } else {
                 alert("Credenciales incorrectas");
             }
         }
 
-        function handleUpload(e) {
+        function handleAddWork(e) {
             e.preventDefault();
-            const btn = document.getElementById('uploadBtn');
-            btn.textContent = "Subiendo...";
-            btn.disabled = true;
 
-            const file = document.getElementById('file').files[0];
+            const fileInput = document.getElementById('file');
+            const file = fileInput.files[0];
             if (!file) {
                 alert("Selecciona un archivo");
-                btn.textContent = "Subir Archivo";
-                btn.disabled = false;
                 return;
             }
 
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const newWork = {
-                    id: Date.now(),
-                    semana: parseInt(document.getElementById('semana').value),
-                    titulo: document.getElementById('titulo').value,
-                    descripcion: document.getElementById('descripcion').value,
-                    fileName: file.name,
-                    fileData: event.target.result
-                };
+            const semana = document.getElementById('semana').value;
+            const titulo = document.getElementById('titulo').value;
+            const descripcion = document.getElementById('descripcion').value;
 
-                works.push(newWork);
-                localStorage.setItem('portafolioWorks', JSON.stringify(works));
-                renderWorks();
-                hideAddModal();
-                alert("¡Archivo guardado correctamente!");
+            // Crear objeto con información del trabajo
+            const newWork = {
+                id: Date.now(),
+                semana: parseInt(semana),
+                titulo: titulo,
+                descripcion: descripcion,
+                fileName: file.name,
+                // Nota: El archivo real debes subirlo manualmente a la carpeta "archivos" en GitHub
+                filePath: `archivos/${file.name}`   // Cambia esto manualmente después
             };
-            reader.readAsDataURL(file);
 
-            btn.textContent = "Subir Archivo";
-            btn.disabled = false;
+            works.push(newWork);
+            localStorage.setItem('portafolioWorks', JSON.stringify(works));
+            renderWorks();
+            hideAddModal();
+            alert("Trabajo guardado.\n\nRecuerda subir el archivo manualmente a la carpeta 'archivos' en GitHub");
         }
 
         function renderWorks() {
@@ -167,28 +156,21 @@
             container.innerHTML = '';
 
             if (works.length === 0) {
-                container.innerHTML = `<div class="col-span-3 text-center py-20 text-gray-400 text-xl">Aún no hay trabajos subidos</div>`;
+                container.innerHTML = `<div class="col-span-3 text-center py-20 text-gray-400">Aún no hay trabajos subidos</div>`;
                 return;
             }
-
-            works.sort((a, b) => a.semana - b.semana);
 
             works.forEach(work => {
                 const cardHTML = `
                     <div class="work-card bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100">
                         <div class="p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-4 py-2 rounded-3xl">
-                                    SEMANA ${work.semana}
-                                </span>
-                                ${isLoggedIn ? `
-                                <button onclick="deleteWork(${work.id})" class="text-red-400 hover:text-red-500">
-                                    <i class="fas fa-trash"></i>
-                                </button>` : ''}
+                            <div class="flex justify-between mb-4">
+                                <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-3xl text-sm font-semibold">SEMANA ${work.semana}</span>
+                                ${isLoggedIn ? `<button onclick="deleteWork(${work.id})" class="text-red-400"><i class="fas fa-trash"></i></button>` : ''}
                             </div>
                             <h3 class="text-2xl font-semibold mb-3">${work.titulo}</h3>
                             <p class="text-gray-600 mb-6">${work.descripcion}</p>
-                            <a href="${work.fileData}" download="${work.fileName}" 
+                            <a href="${work.filePath}" target="_blank" 
                                class="flex items-center gap-3 text-emerald-600 hover:text-emerald-700 font-medium">
                                 <i class="fas fa-download"></i>
                                 Descargar: ${work.fileName}
@@ -210,8 +192,6 @@
 
         function toggleLoginModal() {
             document.getElementById('login-modal').classList.toggle('hidden');
-            document.getElementById('email').value = '';
-            document.getElementById('password').value = '';
         }
 
         function showAddModal() {
@@ -236,7 +216,6 @@
             }
         }
 
-        // Cargar datos guardados
         window.onload = () => {
             const saved = localStorage.getItem('portafolioWorks');
             if (saved) works = JSON.parse(saved);
