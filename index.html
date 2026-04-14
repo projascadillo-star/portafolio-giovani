@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', system_ui, sans-serif; }
-        .work-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .work-card { transition: all 0.3s; }
         .work-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
     </style>
 </head>
@@ -21,26 +20,25 @@
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold">📘</div>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Portafolio Semanal</h1>
-                    <p class="text-sm text-gray-500 -mt-1">Giovani • R01124B</p>
+                    <h1 class="text-2xl font-bold">Portafolio Semanal</h1>
+                    <p class="text-sm text-gray-500">Giovani • R01124B</p>
                 </div>
             </div>
             <div class="flex items-center gap-6">
-                <a href="#portafolio" class="flex items-center gap-2 text-gray-700 hover:text-blue-600">Ver Portafolio</a>
                 <button onclick="toggleLoginModal()" id="btn-login" class="bg-blue-600 text-white px-6 py-3 rounded-3xl font-semibold">Iniciar sesión</button>
                 <button onclick="showAddModal()" id="btn-add" class="hidden bg-emerald-600 text-white px-6 py-3 rounded-3xl font-semibold">+ Agregar Semana</button>
-                <button onclick="logout()" id="btn-logout" class="hidden text-red-500 text-xl"><i class="fas fa-sign-out-alt"></i></button>
+                <button onclick="logout()" id="btn-logout" class="hidden text-red-500"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
     </nav>
 
     <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-20 text-center">
-        <h2 class="text-5xl font-bold mb-3">Mi Portafolio de Trabajos Semanales</h2>
-        <p class="text-xl text-blue-100">Archivos subidos a Supabase • Visible desde cualquier dispositivo</p>
+        <h2 class="text-5xl font-bold">Mi Portafolio de Trabajos Semanales</h2>
+        <p class="text-blue-100 mt-2">Visible desde cualquier dispositivo</p>
     </header>
 
     <section id="portafolio" class="max-w-7xl mx-auto px-6 py-12">
-        <h2 class="text-4xl font-bold mb-10">Trabajos por Semana</h2>
+        <h2 class="text-4xl font-bold mb-8">Trabajos por Semana</h2>
         <div id="works-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </section>
 
@@ -75,27 +73,17 @@
         const SUPABASE_URL = 'https://vxphoagxcllhealhieeh.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4cGhvYWd4Y2xsaGVhbGhpZWVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2ODA5MDksImV4cCI6MjA5MTI1NjkwOX0.eKzMCf-yFM1hZHiEZoxsg9kuPPvPBImsaljJjMxMSgM';
 
-        const { createClient } = supabase;
-        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         let isLoggedIn = false;
         let works = [];
 
-        // Cargar trabajos desde Supabase
         async function loadWorks() {
-            const { data, error } = await supabaseClient
-                .from('works')
-                .select('*')
-                .order('semana', { ascending: true });
-
-            if (error) {
-                console.error(error);
-                return;
-            }
+            const { data, error } = await supabaseClient.from('works').select('*').order('semana');
+            if (error) console.error(error);
             works = data || [];
             renderWorks();
         }
-
         async function handleLogin() {
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
@@ -194,10 +182,9 @@
         function hideAddModal() { document.getElementById('add-modal').classList.add('hidden'); }
         function logout() { location.reload(); }
 
-        // Inicializar
-        window.onload = () => {
-            loadWorks();
-        };
+        window.onload = loadWorks;
+    
     </script>
 </body>
 </html>
+
