@@ -8,68 +8,111 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', system_ui, sans-serif; }
-        .work-card { transition: all 0.3s; }
-        .work-card:hover { transform: translateY(-8px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+        
+        .work-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .work-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
 
+    <!-- Navbar -->
     <nav class="bg-white border-b shadow-sm sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold">📘</div>
                 <div>
-                    <h1 class="text-2xl font-bold">Portafolio Semanal</h1>
-                    <p class="text-sm text-gray-500">Giovani • R01124B</p>
+                    <h1 class="text-2xl font-bold text-gray-900">Portafolio Semanal</h1>
+                    <p class="text-sm text-gray-500 -mt-1">Giovani • R01124B</p>
                 </div>
             </div>
             <div class="flex items-center gap-6">
-                <button onclick="toggleLoginModal()" id="btn-login" class="bg-blue-600 text-white px-6 py-3 rounded-3xl font-semibold">Iniciar sesión</button>
-                <button onclick="showAddModal()" id="btn-add" class="hidden bg-emerald-600 text-white px-6 py-3 rounded-3xl font-semibold">+ Agregar Semana</button>
-                <button onclick="logout()" id="btn-logout" class="hidden text-red-500"><i class="fas fa-sign-out-alt"></i></button>
+                <a href="#portafolio" class="flex items-center gap-2 text-gray-700 hover:text-blue-600 font-medium">
+                    <i class="fas fa-folder-open"></i> Ver Portafolio
+                </a>
+                <button onclick="toggleLoginModal()" id="btn-login" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-3xl font-semibold transition-all">
+                    Iniciar sesión
+                </button>
+                <button onclick="showAddModal()" id="btn-add" 
+                        class="hidden bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-3xl font-semibold transition-all">
+                    + Agregar Semana
+                </button>
+                <button onclick="logout()" id="btn-logout" 
+                        class="hidden text-red-500 hover:text-red-600 text-xl transition-all">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
             </div>
         </div>
     </nav>
 
+    <!-- Hero -->
     <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-20 text-center">
-        <h2 class="text-5xl font-bold">Mi Portafolio de Trabajos Semanales</h2>
-        <p class="text-blue-100 mt-2">Visible desde cualquier dispositivo</p>
+        <h2 class="text-5xl font-bold mb-3">Mi Portafolio de Trabajos Semanales</h2>
+        <p class="text-xl text-blue-100">Archivos subidos directamente a Supabase</p>
     </header>
 
     <section id="portafolio" class="max-w-7xl mx-auto px-6 py-12">
-        <h2 class="text-4xl font-bold mb-8">Trabajos por Semana</h2>
+        <h2 class="text-4xl font-bold mb-10 text-gray-900">Trabajos por Semana</h2>
         <div id="works-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </section>
 
-    <!-- Login Modal -->
+    <!-- Login Modal (campos vacíos) -->
     <div id="login-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
         <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4">
-            <h3 class="text-2xl font-bold mb-6">Iniciar sesión</h3>
-            <input id="email" type="email" placeholder="r01124b@estudiante.com" class="w-full px-5 py-4 border rounded-2xl mb-4">
-            <input id="password" type="password" placeholder="Contraseña" class="w-full px-5 py-4 border rounded-2xl mb-6">
-            <button onclick="handleLogin()" class="w-full bg-blue-600 text-white py-4 rounded-3xl font-semibold">Entrar</button>
+            <h3 class="text-2xl font-bold mb-6 text-center">Iniciar sesión</h3>
+            <input id="email" type="email" placeholder="Correo electrónico" 
+                   class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-4 focus:outline-none focus:border-blue-500">
+            <input id="password" type="password" placeholder="Contraseña" 
+                   class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-6 focus:outline-none focus:border-blue-500">
+            <button onclick="handleLogin()" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-3xl font-semibold text-lg">
+                Entrar
+            </button>
+            <p class="text-center text-xs text-gray-500 mt-6">
+                Credenciales:<br>
+                r01124b@estudiante.com / Grc74648482
+            </p>
         </div>
     </div>
 
     <!-- Add Modal -->
     <div id="add-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
         <div class="bg-white rounded-3xl p-8 max-w-lg w-full mx-4">
-            <h3 class="text-2xl font-bold mb-6">Agregar trabajo de la semana</h3>
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Agregar trabajo de la semana</h3>
+                <button onclick="hideAddModal()" class="text-3xl text-gray-400 hover:text-gray-600">×</button>
+            </div>
             <form onsubmit="handleUpload(event)">
-                <input id="semana" type="number" min="1" placeholder="Número de semana" class="w-full px-5 py-4 border rounded-2xl mb-4" required>
-                <input id="titulo" type="text" placeholder="Título del trabajo" class="w-full px-5 py-4 border rounded-2xl mb-4" required>
-                <textarea id="descripcion" rows="3" placeholder="Descripción breve..." class="w-full px-5 py-4 border rounded-2xl mb-6" required></textarea>
+                <input id="semana" type="number" min="1" placeholder="Número de semana" 
+                       class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-4" required>
+                <input id="titulo" type="text" placeholder="Título del trabajo" 
+                       class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-4" required>
+                <textarea id="descripcion" rows="3" placeholder="Descripción breve..." 
+                          class="w-full px-5 py-4 border border-gray-300 rounded-2xl mb-6" required></textarea>
                 <input id="file" type="file" class="w-full mb-6" required>
                 <div class="flex gap-3">
-                    <button type="button" onclick="hideAddModal()" class="flex-1 py-4 border rounded-3xl">Cancelar</button>
-                    <button type="submit" id="uploadBtn" class="flex-1 py-4 bg-emerald-600 text-white rounded-3xl font-semibold">Subir Archivo</button>
+                    <button type="button" onclick="hideAddModal()" 
+                            class="flex-1 py-4 border border-gray-300 rounded-3xl text-gray-700 font-medium">Cancelar</button>
+                    <button type="submit" id="uploadBtn" 
+                            class="flex-1 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-3xl font-semibold">Subir Archivo</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <footer class="bg-gray-900 text-white py-10 text-center text-sm">
+        Portafolio con Supabase • Archivos en la nube
+    </footer>
+
     <script>
+        // ==================== CONFIGURACIÓN SUPABASE ====================
         const SUPABASE_URL = 'https://vxphoagxcllhealhieeh.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ4cGhvYWd4Y2xsaGVhbGhpZWVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2ODA5MDksImV4cCI6MjA5MTI1NjkwOX0.eKzMCf-yFM1hZHiEZoxsg9kuPPvPBImsaljJjMxMSgM';
 
@@ -78,28 +121,32 @@
         let isLoggedIn = false;
         let works = [];
 
-        async function loadWorks() {
-            const { data, error } = await supabaseClient.from('works').select('*').order('semana');
-            if (error) console.error(error);
-            works = data || [];
-            renderWorks();
-        }
+        // ==================== LOGIN ====================
         async function handleLogin() {
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
+
+            if (!email || !password) {
+                alert("Por favor ingresa tu correo y contraseña");
+                return;
+            }
+
             const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
             if (error) {
-                alert("Error: " + error.message);
+                alert("Error de login: " + error.message);
             } else {
                 isLoggedIn = true;
                 document.getElementById('login-modal').classList.add('hidden');
                 document.getElementById('btn-login').classList.add('hidden');
                 document.getElementById('btn-add').classList.remove('hidden');
                 document.getElementById('btn-logout').classList.remove('hidden');
+                alert("✅ Sesión iniciada correctamente");
                 loadWorks();
             }
         }
 
+        // ==================== SUBIR ARCHIVO ====================
         async function handleUpload(e) {
             e.preventDefault();
             const btn = document.getElementById('uploadBtn');
@@ -107,84 +154,134 @@
             btn.disabled = true;
 
             const file = document.getElementById('file').files[0];
+            if (!file) {
+                alert("Por favor selecciona un archivo");
+                btn.textContent = "Subir Archivo";
+                btn.disabled = false;
+                return;
+            }
+
             const semana = parseInt(document.getElementById('semana').value);
-            const titulo = document.getElementById('titulo').value;
-            const descripcion = document.getElementById('descripcion').value;
+            const titulo = document.getElementById('titulo').value.trim();
+            const descripcion = document.getElementById('descripcion').value.trim();
 
             const filePath = `semana${semana}/${Date.now()}-${file.name}`;
 
             try {
-                // Subir archivo
-                const { error: uploadError } = await supabaseClient.storage.from('portafolio').upload(filePath, file);
+                // Subir archivo a Storage
+                const { error: uploadError } = await supabaseClient.storage
+                    .from('portafolio')
+                    .upload(filePath, file, { upsert: true });
+
                 if (uploadError) throw uploadError;
 
-                const { data: urlData } = supabaseClient.storage.from('portafolio').getPublicUrl(filePath);
+                // Obtener URL pública
+                const { data: urlData } = supabaseClient.storage
+                    .from('portafolio')
+                    .getPublicUrl(filePath);
 
-                // Guardar información en la tabla 'works'
-                const { error: insertError } = await supabaseClient
-                    .from('works')
-                    .insert([{
-                        semana: semana,
-                        titulo: titulo,
-                        descripcion: descripcion,
-                        filename: file.name,
-                        public_url: urlData.publicUrl
-                    }]);
-
-                if (insertError) throw insertError;
-
-                alert("¡Trabajo subido correctamente!");
+                alert(`¡Archivo subido correctamente!\n\nPuedes descargarlo desde cualquier dispositivo.`);
                 hideAddModal();
-                loadWorks();
             } catch (err) {
-                alert("Error: " + err.message);
+                console.error(err);
+                alert("Error al subir el archivo:\n" + err.message);
             }
 
             btn.textContent = "Subir Archivo";
             btn.disabled = false;
         }
 
+        // ==================== RENDERIZAR TARJETAS ====================
         function renderWorks() {
             const container = document.getElementById('works-grid');
             container.innerHTML = '';
 
             if (works.length === 0) {
-                container.innerHTML = `<div class="col-span-3 text-center py-20 text-gray-400">Aún no hay trabajos subidos</div>`;
+                container.innerHTML = `<div class="col-span-3 text-center py-20 text-gray-400 text-xl">Aún no hay trabajos subidos</div>`;
                 return;
             }
 
+            works.sort((a, b) => a.semana - b.semana);
+
             works.forEach(work => {
-                const div = document.createElement('div');
-                div.className = "work-card bg-white rounded-3xl shadow-lg p-6";
-                div.innerHTML = `
-                    <div class="flex justify-between mb-4">
-                        <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-3xl text-sm font-semibold">SEMANA ${work.semana}</span>
-                        ${isLoggedIn ? `<button onclick="deleteWork(${work.id})" class="text-red-400"><i class="fas fa-trash"></i></button>` : ''}
+                const cardHTML = `
+                    <div class="work-card bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100">
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-4 py-2 rounded-3xl">
+                                    SEMANA ${work.semana}
+                                </span>
+                                ${isLoggedIn ? `
+                                <button onclick="deleteWork(${work.id})" 
+                                        class="text-red-400 hover:text-red-500 p-2 hover:bg-red-50 rounded-xl transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>` : ''}
+                            </div>
+                            <h3 class="text-2xl font-semibold text-gray-900 mb-3">${work.titulo}</h3>
+                            <p class="text-gray-600 mb-6">${work.descripcion}</p>
+                            <a href="${work.publicUrl}" target="_blank" 
+                               class="flex items-center gap-3 text-emerald-600 hover:text-emerald-700 font-medium">
+                                <i class="fas fa-download"></i>
+                                <span>Descargar archivo</span>
+                            </a>
+                        </div>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-2">${work.titulo}</h3>
-                    <p class="text-gray-600 mb-4">${work.descripcion}</p>
-                    <a href="${work.public_url}" target="_blank" class="text-emerald-600 hover:underline flex items-center gap-2">
-                        <i class="fas fa-download"></i> Descargar ${work.filename}
-                    </a>
                 `;
-                container.appendChild(div);
+                container.innerHTML += cardHTML;
             });
         }
 
         function deleteWork(id) {
-            if (confirm('¿Eliminar este trabajo?')) {
-                supabaseClient.from('works').delete().eq('id', id).then(() => loadWorks());
+            if (!isLoggedIn) return;
+            if (confirm('¿Eliminar este trabajo permanentemente?')) {
+                works = works.filter(w => w.id !== id);
+                localStorage.setItem('portafolioWorks', JSON.stringify(works));
+                renderWorks();
             }
         }
 
-        function toggleLoginModal() { document.getElementById('login-modal').classList.toggle('hidden'); }
-        function showAddModal() { if(isLoggedIn) document.getElementById('add-modal').classList.remove('hidden'); else alert("Inicia sesión primero"); }
-        function hideAddModal() { document.getElementById('add-modal').classList.add('hidden'); }
-        function logout() { location.reload(); }
+        function toggleLoginModal() {
+            document.getElementById('login-modal').classList.toggle('hidden');
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+        }
 
-        window.onload = loadWorks;
-    
+        function showAddModal() {
+            if (!isLoggedIn) {
+                alert("Debes iniciar sesión primero");
+                return;
+            }
+            document.getElementById('add-modal').classList.remove('hidden');
+        }
+
+        function hideAddModal() {
+            document.getElementById('add-modal').classList.add('hidden');
+        }
+
+        function logout() {
+            if (confirm('¿Cerrar sesión?')) {
+                isLoggedIn = false;
+                document.getElementById('btn-login').classList.remove('hidden');
+                document.getElementById('btn-add').classList.add('hidden');
+                document.getElementById('btn-logout').classList.add('hidden');
+                renderWorks();
+            }
+        }
+
+        // Cargar trabajos guardados (localStorage por ahora)
+        function loadWorks() {
+            const saved = localStorage.getItem('portafolioWorks');
+            if (saved) {
+                works = JSON.parse(saved);
+            }
+            renderWorks();
+        }
+
+        // Inicializar
+        window.onload = () => {
+            loadWorks();
+            console.log("%c✅ Portafolio cargado correctamente", "color:#10b981; font-weight:bold");
+        };
     </script>
 </body>
 </html>
-
